@@ -87,8 +87,17 @@ const Form = () => {
   const handleSubmitContractor = (e) => {
     e.preventDefault();
     if (validationFlag) {
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: "React Hooks POST Request Example" }),
+      };
+      fetch("https://localhost:60001/Contractor/Save", requestOptions)
+        .then((response) => response.json())
+        .catch(console.log("Nie znaleziono metody zapisu"));
       setFormValues(initialState);
       setPeselInfoFlag(false);
+      setValidationFlag(false);
     } else {
       setPeselInfoFlag(true);
     }
