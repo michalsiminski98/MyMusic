@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SubmitButton from "../../atoms/SubmitButton/SubmitButton";
 import FormField from "../../molecules/FormField/FormField";
 import PhotoField from "../../molecules/PhotoField/PhotoField";
@@ -14,6 +14,9 @@ const initialState = {
 
 const Form = () => {
   const [formValues, setFormValues] = useState(initialState);
+  // if validation flag = true, form is ok
+  const [validationFlag, setValidationFlag] = useState(false);
+  const [peselInfoFlag, setPeselInfoFlag] = useState(false);
 
   const handleInputChange = (e) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
@@ -29,10 +32,66 @@ const Form = () => {
     reader.readAsDataURL(e.target.files[0]);
   };
 
+  useEffect(() => {
+    if (formValues.type === "person") {
+      if (
+        formValues.peselNip.length === 11 &&
+        Number.isInteger(Number(formValues.peselNip))
+      ) {
+        setValidationFlag(true);
+      } else setValidationFlag(false);
+    } else if (formValues.type === "business") {
+      let country = formValues.peselNip.split("").slice(0, 2);
+      let flag = true;
+      for (let i = 0; i < country.length; i++) {
+        country[i] = country[i].toLowerCase();
+        if (
+          ![
+            "a",
+            "b",
+            "c",
+            "d",
+            "e",
+            "f",
+            "g",
+            "h",
+            "i",
+            "j",
+            "k",
+            "l",
+            "m",
+            "n",
+            "o",
+            "p",
+            "q",
+            "r",
+            "s",
+            "t",
+            "u",
+            "v",
+            "w",
+            "x",
+            "y",
+            "z",
+          ].includes(country[i])
+        ) {
+          flag = false;
+        }
+      }
+      if (flag === true && formValues.peselNip.length === 12)
+        setValidationFlag(true);
+      else setValidationFlag(false);
+    }
+  }, [formValues, validationFlag]);
+
   const handleSubmitContractor = (e) => {
     e.preventDefault();
-    console.log(formValues);
-    setFormValues(initialState);
+    if (validationFlag) {
+      setFormValues(initialState);
+      setPeselInfoFlag(false);
+    } else {
+      setPeselInfoFlag(true);
+    }
   };
 
   return (
@@ -64,10 +123,12 @@ const Form = () => {
         labelText="PESEL/NIP"
         id="peselNip"
         name="peselNip"
-        type="number"
         value={formValues.peselNip}
         onChange={handleInputChange}
       />
+      {peselInfoFlag && (
+        <p style={{ color: "red", fontSize: 12 }}>Incorrect PESEL/NIP</p>
+      )}
       <PhotoField
         id="imageUpload"
         name="imageUpload"
