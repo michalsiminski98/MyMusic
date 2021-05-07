@@ -72,7 +72,7 @@ const Form = () => {
         id="imageUpload"
         name="imageUpload"
         type="file"
-        accept="image/*"
+        accept="image/jpg,image/jpeg"
         onChange={handleImage}
         img={formValues.img}
       />
