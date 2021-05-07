@@ -2,7 +2,7 @@ import { GlobalStyle } from "../assets/styles/GlobalStyle";
 import Form from "../components/organisms/Form/Form";
 import MainTemplate from "../components/templates/MainTemplate";
 
-function App() {
+function Root() {
   return (
     <>
       <GlobalStyle />
@@ -13,4 +13,4 @@ function App() {
   );
 }
 
-export default App;
+export default Root;
