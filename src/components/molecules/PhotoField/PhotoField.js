@@ -1,6 +1,7 @@
 import { Input, Label, PhotoWrapper } from "./PhotoField.styles";
+import PropTypes from "prop-types";
 
-const PhotoField = ({ type, accept, name, id, onChange, img }) => {
+const PhotoField = ({ id, name, type, accept, onChange, img }) => {
   return (
     <>
       <PhotoWrapper src={img} />
@@ -15,6 +16,15 @@ const PhotoField = ({ type, accept, name, id, onChange, img }) => {
       <Label htmlFor={id}>Choose photo</Label>
     </>
   );
+};
+
+PhotoField.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string,
+  type: PropTypes.string,
+  accept: PropTypes.string,
+  onChange: PropTypes.func,
+  img: PropTypes.string,
 };
 
 export default PhotoField;

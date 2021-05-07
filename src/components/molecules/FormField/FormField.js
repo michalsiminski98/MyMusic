@@ -1,4 +1,5 @@
 import { Input, Label, Wrapper } from "./FormField.styles";
+import PropTypes from "prop-types";
 
 const FormField = ({
   labelText,
@@ -38,6 +39,16 @@ const FormField = ({
       )}
     </Wrapper>
   );
+};
+
+FormField.propTypes = {
+  labelText: PropTypes.string,
+  id: PropTypes.string,
+  name: PropTypes.string,
+  value: PropTypes.string,
+  inputype: PropTypes.string,
+  type: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 export default FormField;
