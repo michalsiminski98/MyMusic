@@ -4,6 +4,7 @@ import FormField from "../../molecules/FormField/FormField";
 import PhotoField from "../../molecules/PhotoField/PhotoField";
 import { Title, Wrapper } from "./Form.styles";
 
+// initial state for form
 const initialState = {
   firstName: "",
   lastName: "",
@@ -18,6 +19,7 @@ const Form = () => {
   const [validationFlag, setValidationFlag] = useState(false);
   const [peselInfoFlag, setPeselInfoFlag] = useState(false);
 
+  // handler for every input except adding image
   const handleInputChange = (e) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
   };
@@ -32,6 +34,7 @@ const Form = () => {
     reader.readAsDataURL(e.target.files[0]);
   };
 
+  // validation for Pesel/Nip input
   useEffect(() => {
     if (formValues.type === "person") {
       if (
@@ -84,6 +87,7 @@ const Form = () => {
     }
   }, [formValues, validationFlag]);
 
+  // submiting or rejecting form submit
   const handleSubmitContractor = (e) => {
     e.preventDefault();
     if (validationFlag) {
