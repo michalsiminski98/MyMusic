@@ -17,6 +17,7 @@ const Form = () => {
   const [formValues, setFormValues] = useState(initialState);
   // if validation flag = true, form is ok
   const [validationFlag, setValidationFlag] = useState(false);
+  // "peselInfoFlag" is info in JSX about validation error
   const [peselInfoFlag, setPeselInfoFlag] = useState(false);
 
   // handler for every input except adding image
