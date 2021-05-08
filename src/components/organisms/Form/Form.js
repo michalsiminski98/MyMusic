@@ -89,8 +89,8 @@ const Form = () => {
     if (validationFlag) {
       const requestOptions = {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title: "React Hooks POST Request Example" }),
+        headers: { "Content-Type": "Contractor data" },
+        body: JSON.stringify({ formValues }),
       };
       fetch("https://localhost:60001/Contractor/Save", requestOptions)
         .then((response) => response.json())
