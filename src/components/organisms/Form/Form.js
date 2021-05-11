@@ -23,7 +23,7 @@ const Form = () => {
   // "peselInfoFlag" is info in JSX about validation error
   const [peselInfoFlag, setPeselInfoFlag] = useState(false);
 
-  // handler for every input except adding image
+  // handler for every input
   function formValuesReducer(state, action) {
     switch (action.type) {
       case "inputChange":
