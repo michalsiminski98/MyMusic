@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import SubmitButton from "../../atoms/SubmitButton/SubmitButton";
 import FormField from "../../molecules/FormField/FormField";
 import PhotoField from "../../molecules/PhotoField/PhotoField";
@@ -14,22 +14,35 @@ const initialState = {
 };
 
 const Form = () => {
-  const [formValues, setFormValues] = useState(initialState);
+  const [formValues, setFormValues] = useReducer(
+    formValuesReducer,
+    initialState
+  );
   // if validation flag = true, form is ok
   const [validationFlag, setValidationFlag] = useState(false);
   // "peselInfoFlag" is info in JSX about validation error
   const [peselInfoFlag, setPeselInfoFlag] = useState(false);
 
   // handler for every input except adding image
-  const handleInputChange = (e) => {
-    setFormValues({ ...formValues, [e.target.name]: e.target.value });
-  };
-
+  function formValuesReducer(state, action) {
+    switch (action.type) {
+      case "inputChange":
+        return { ...state, [action.name]: action.value };
+      case "clearInputs":
+        return initialState;
+      default:
+        throw new Error();
+    }
+  }
   const handleImage = (e) => {
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
-        setFormValues({ ...formValues, img: reader.result });
+        setFormValues({
+          type: "inputChange",
+          name: "img",
+          value: reader.result,
+        });
       }
     };
     reader.readAsDataURL(e.target.files[0]);
@@ -100,7 +113,7 @@ const Form = () => {
       fetch("https://localhost:60001/Contractor/Save", requestOptions)
         .then((response) => response.json())
         .catch(console.log("Nie znaleziono metody zapisu"));
-      setFormValues(initialState);
+      setFormValues({ type: "clearInputs" });
       setPeselInfoFlag(false);
       setValidationFlag(false);
     } else {
@@ -116,14 +129,26 @@ const Form = () => {
         id="firstName"
         name="firstName"
         value={formValues.firstName}
-        onChange={handleInputChange}
+        onChange={(e) =>
+          setFormValues({
+            type: "inputChange",
+            name: "firstName",
+            value: e.target.value,
+          })
+        }
       />
       <FormField
         labelText="Last name"
         id="lastName"
         name="lastName"
         value={formValues.lastName}
-        onChange={handleInputChange}
+        onChange={(e) =>
+          setFormValues({
+            type: "inputChange",
+            name: "lastName",
+            value: e.target.value,
+          })
+        }
       />
       <FormField
         labelText="Type"
@@ -131,14 +156,26 @@ const Form = () => {
         name="type"
         inputype="select"
         value={formValues.type}
-        onChange={handleInputChange}
+        onChange={(e) =>
+          setFormValues({
+            type: "inputChange",
+            name: "type",
+            value: e.target.value,
+          })
+        }
       />
       <FormField
         labelText="PESEL/NIP"
         id="peselNip"
         name="peselNip"
         value={formValues.peselNip}
-        onChange={handleInputChange}
+        onChange={(e) =>
+          setFormValues({
+            type: "inputChange",
+            name: "peselNip",
+            value: e.target.value,
+          })
+        }
       />
       {peselInfoFlag && (
         <p style={{ color: "red", fontSize: 12 }}>Incorrect PESEL/NIP</p>
