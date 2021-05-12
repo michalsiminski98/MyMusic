@@ -22,6 +22,7 @@ const FormField = ({
             onChange={onChange}
             selected="person"
             form="carform"
+            data-testid={name}
           >
             <option value="" defaultValue disabled hidden></option>
             <option value="person">Person</option>
@@ -35,6 +36,7 @@ const FormField = ({
           type={type}
           value={value}
           onChange={onChange}
+          data-testid={name}
         />
       )}
     </Wrapper>

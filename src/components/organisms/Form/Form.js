@@ -177,6 +177,7 @@ const Form = () => {
           })
         }
       />
+
       {peselInfoFlag && (
         <p style={{ color: "red", fontSize: 12 }}>Incorrect PESEL/NIP</p>
       )}
